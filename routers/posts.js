@@ -4,7 +4,7 @@ const router = express.Router();
 //prova query string
 router.get('/', (req, res) => {
     const ricerca = req.query.search
-    
+
     if (ricerca) {
         res.send(`search post by ${ricerca}`)
     } else {
