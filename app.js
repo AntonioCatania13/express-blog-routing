@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 const postsRouters = require('./routers/posts');
 const errorHandler = require('./middlewares/errorHandler');
+const notFound = require('./middlewares/notFound');
 // const errorserversaid = require('./middlewares/errorservesaid');
 
 //file public
@@ -49,6 +50,9 @@ app.get('/post/:id', (req, res) => {
 //middleware erro
 // app.use(errorserversaid)
 app.use(errorHandler);
+
+//middleware backend
+app.use(notFound);
 
 //start serve
 app.listen(port, () => {
