@@ -1,4 +1,7 @@
 const express = require('express');
+//db
+const connection = require('../data/db');
+
 const router = express.Router();
 
 //prova query string

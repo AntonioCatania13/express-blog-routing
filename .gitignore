@@ -2,3 +2,4 @@ node_modules
 workspace.globals.yaml
 resources.yaml
 .DS_Store
+.env
