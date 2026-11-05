@@ -3,7 +3,7 @@ const  express = require('express');
 
 // step 
 const app = express();
-const port = 3000;
+const port = process.env.APP_PORT || 3000;
 const postsRouters = require('./routers/posts');
 
 const errorHandler = require('./middlewares/errorHandler');
@@ -14,7 +14,7 @@ const notFound = require('./middlewares/notFound');
 app.use(express.static('public'));
 
 // coversione oggetto javascript
-// app.use(express.json());
+app.use(express.json());
 
 //routing
 app.use("/posts", postsRouters);

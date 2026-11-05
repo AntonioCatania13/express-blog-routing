@@ -35,7 +35,14 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res) => {
-    res.send('creazione nuovo post');
+    const {title, content, image} = req.body;
+    const sql = 'INSERT INTO posts (title, content, image) VALUES (?, ?, ?)';
+
+    connection.query(sql, [title, content, image], (err, result) => {
+        if(err) return next(err);
+        res.status(201).json({message: 'post aggiunto con successo'});
+    })
+    // res.send('creazione nuovo post');
 })
 
 router.put('/:id', (req, res) => {
