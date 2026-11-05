@@ -34,7 +34,7 @@ router.get('/:id', (req, res, next) => {
     // res.send(`detaglio post con id : ${id}`);
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     const {title, content, image} = req.body;
     const sql = 'INSERT INTO posts (title, content, image) VALUES (?, ?, ?)';
 
@@ -55,9 +55,15 @@ router.patch('/:id', (req, res) => {
     res.send(`modifica parziale del post con id : ${id}`);
 });
 
-router.delete('/:id', (req, res) => {
+//destroy
+router.delete('/:id', (req, res, next) => {
     const id = req.params.id;
-    res.send(`eliminazione del post con id : ${id}`);
+
+    connection.query('DELETE FROM posts WHERE id=?', [id], (err) => {
+        if(err) return next(err);
+        res.status(204).json({message: 'post eliminato'});
+    });
+    // res.send(`eliminazione del post con id : ${id}`);
 });
 
 
