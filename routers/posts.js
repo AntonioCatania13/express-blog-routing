@@ -25,12 +25,29 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
 
-    const sql = 'SELECT * FROM posts WHERE id=?';
-    connection.query(sql, [id], (err, results) => {
+    const postsql = 'SELECT * FROM posts WHERE id=?';
+
+    const tagsql =`SELECT tags.*
+        FROM tags
+        JOIN post_tag
+        ON post_tag.tag_id = tags.id 
+        WHERE post_tag.post_id = ?`;
+
+    connection.query(postsql, [id], (err, results) => {
         if(err) return next(err);
         if(results.length === 0) return res.status(404).json({ error: 'post not found'});
-        res.json(results[0]);
-    })
+        
+        const post = results[0];
+
+        connection.query(tagsql, [id], (err, tagsResults) => {
+            if(err) return next(err);
+           
+            post.tag = tagsResults;
+
+            res.json(post);
+        });
+        // res.json(results[0]);
+    });
     // res.send(`detaglio post con id : ${id}`);
 });
 
